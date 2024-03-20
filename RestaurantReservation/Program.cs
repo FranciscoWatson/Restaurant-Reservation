@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RestaurantReservation.Db;
 
 IConfigurationRoot configuration = new ConfigurationBuilder()
@@ -6,9 +7,8 @@ IConfigurationRoot configuration = new ConfigurationBuilder()
                .AddJsonFile("appsettings.json")
                .Build();
 
-var connectionString = configuration.GetConnectionString("SqlServerConnection");
+var contextOptions = new DbContextOptionsBuilder<RestaurantReservationDbContext>()
+    .UseSqlServer(configuration.GetConnectionString("SqlServerConnection"))
+    .Options;
 
-using (var dbContext = new RestaurantReservationDbContext(connectionString!))
-{
-
-}
+using var context = new RestaurantReservationDbContext(contextOptions);
