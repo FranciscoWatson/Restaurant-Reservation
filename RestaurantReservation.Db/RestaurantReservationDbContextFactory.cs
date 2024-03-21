@@ -18,14 +18,11 @@ namespace RestaurantReservation.Db
                  .AddJsonFile("appsettings.json")
                  .Build();
 
-            // Get connection string from appsettings.json
             var connectionString = configuration.GetConnectionString("SqlServerConnection");
 
-            // Create options builder
             var optionsBuilder = new DbContextOptionsBuilder<RestaurantReservationDbContext>();
             optionsBuilder.UseSqlServer(connectionString);
 
-            // Create and return DbContext
             return new RestaurantReservationDbContext(optionsBuilder.Options);
         }
     }
