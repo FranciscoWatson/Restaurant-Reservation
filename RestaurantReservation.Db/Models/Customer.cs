@@ -24,8 +24,8 @@ namespace RestaurantReservation.Db.Models
 
         [MaxLength(30)]
         [Column(TypeName = "varchar(30)")]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
-        public required List<Reservation> Reservations { get; set; }
+        public List<Reservation> Reservations { get; set; }
     }
 }
