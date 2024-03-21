@@ -14,6 +14,6 @@ namespace RestaurantReservation.Db.Models
         public string LastName { get; set; }
         public string Position { get; set; }
 
-        public List<Order> orders;
+        public List<Order> Orders { get; set; }
     }
 }
