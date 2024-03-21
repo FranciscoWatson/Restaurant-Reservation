@@ -5,17 +5,17 @@ namespace RestaurantReservation.Db
 {
     public class RestaurantReservationDbContext : DbContext
     {
-        private readonly string ConnectionString;
-
-        public RestaurantReservationDbContext(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(ConnectionString);
-        } 
 
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.json")
+                        .Build();
+
+            var connectionString = configuration.GetConnectionString("SqlServerConnection");
+
+            optionsBuilder.UseSqlServer(connectionString);
+        }
     }
 }
