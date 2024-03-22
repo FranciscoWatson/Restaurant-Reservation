@@ -14,6 +14,7 @@ namespace RestaurantReservation.Db.Repositories.EmployeeRepository
         Task AddAsync(Employee employee);
         Task UpdateAsync(Employee updatedEmployee);
         Task DeleteAsync(int employeeId);
+        Task<IEnumerable<Employee>> ListManagersAsync();
 
     }
 }

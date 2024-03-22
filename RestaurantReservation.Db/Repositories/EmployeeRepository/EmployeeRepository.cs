@@ -48,5 +48,10 @@ namespace RestaurantReservation.Db.Repositories.EmployeeRepository
             _restaurantReservationDbContext.Employees.Update(updatedEmployee);
             await _restaurantReservationDbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Employee>> ListManagersAsync()
+        {
+            return await _restaurantReservationDbContext.Employees.Where(e => e.Position == "Manager").ToListAsync();
+        }
     }
 }
