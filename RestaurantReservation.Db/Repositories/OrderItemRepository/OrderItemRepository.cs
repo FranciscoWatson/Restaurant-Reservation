@@ -48,5 +48,12 @@ namespace RestaurantReservation.Db.Repositories.OrderItemRepository
             _restaurantReservationDbContext.OrderItems.Update(updatedOrderItem);
             await _restaurantReservationDbContext.SaveChangesAsync();
         }
+
+        public async Task<decimal> CalculateAverageOrderAmountAsync(int employeeId)
+        {
+            return await _restaurantReservationDbContext.Orders
+                .Where(o => o.EmployeeId == employeeId)
+                .AverageAsync(o => o.TotalAmount);
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace RestaurantReservation.Db.Repositories.OrderItemRepository
         Task AddAsync(OrderItem orderItem);
         Task UpdateAsync(OrderItem updatedOrderItem);
         Task DeleteAsync(int orderItemId);
+        Task<decimal> CalculateAverageOrderAmountAsync(int employeeId);
+
     }
 }
