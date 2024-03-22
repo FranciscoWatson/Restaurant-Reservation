@@ -14,5 +14,7 @@ namespace RestaurantReservation.Db.Repositories.MenuItemRepository
         Task AddAsync(MenuItem menuItem);
         Task UpdateAsync(MenuItem updatedMenuItem);
         Task DeleteAsync(int menuItemId);
+        Task<IEnumerable<MenuItem>> ListOrderedMenuItems(int reservationId);
+
     }
 }

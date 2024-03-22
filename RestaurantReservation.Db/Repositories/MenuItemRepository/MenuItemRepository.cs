@@ -48,5 +48,18 @@ namespace RestaurantReservation.Db.Repositories.MenuItemRepository
             _restaurantReservationDbContext.MenuItems.Update(updatedMenuItem);
             await _restaurantReservationDbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<MenuItem>> ListOrderedMenuItems(int reservationId)
+        {
+            return await _restaurantReservationDbContext.Reservations
+                .Where(r => r.ReservationId == reservationId)
+                .SelectMany(r => r.Orders)
+                .SelectMany(o => o.OrderItems)
+                .Select(oi => oi.MenuItem)
+                .Distinct() 
+                .ToListAsync();
+        }
+
+
     }
 }
