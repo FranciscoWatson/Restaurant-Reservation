@@ -48,5 +48,10 @@ namespace RestaurantReservation.Db.Repositories.ReservationRepository
             _restaurantReservationDbContext.Reservations.Update(updatedReservation);
             await _restaurantReservationDbContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Reservation>> GetReservationsByCustomer(int customerId)
+        {
+            return await _restaurantReservationDbContext.Reservations.Where(r => r.CustomerId == customerId).ToListAsync();
+        }
     }
 }

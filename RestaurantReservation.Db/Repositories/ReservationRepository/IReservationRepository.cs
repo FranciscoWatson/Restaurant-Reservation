@@ -14,5 +14,6 @@ namespace RestaurantReservation.Db.Repositories.ReservationRepository
         Task AddAsync(Reservation reservation);
         Task UpdateAsync(Reservation updatedReservation);
         Task DeleteAsync(int reservationId);
+        Task<IEnumerable<Reservation>> GetReservationsByCustomer(int customerId);
     }
 }
