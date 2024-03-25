@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Models;
+using RestaurantReservation.Db.Repositories.CustomerRepository;
 using RestaurantReservation.Db.Repositories.EmployeeRepository;
 using RestaurantReservation.Db.Repositories.MenuItemRepository;
 using RestaurantReservation.Db.Repositories.OrderItemRepository;
@@ -188,7 +189,19 @@ while (true)
 
 
         case 10:
-            // FindCustomersByPartySize();
+            using (var dbContext = new RestaurantReservationDbContext(contextOptions))
+            {
+
+                Console.Write("Enter PartySize: ");
+                int partySize = Convert.ToInt32(Console.ReadLine());
+                var customerRespository = new CustomerRepository(dbContext);
+                var customers = await customerRespository.FindCustomersByPartySizeAsync(partySize);
+                Console.WriteLine($"Customers with party size {partySize}:");
+                foreach (var customer in customers)
+                {
+                    Console.WriteLine($"ID: {customer.CustomerId}, Name: {customer.FirstName} {customer.LastName}, Email: {customer.Email}, Phone: {customer.PhoneNumber ?? "N/A"}");
+                }
+            }
             break;
         case 0:
             return;

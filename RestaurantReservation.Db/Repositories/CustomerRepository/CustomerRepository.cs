@@ -48,5 +48,14 @@ namespace RestaurantReservation.Db.Repositories.CustomerRepository
             _restaurantReservationDbContext.Customers.Update(updatedCustomer);
             await _restaurantReservationDbContext.SaveChangesAsync();
         }
+
+        public async Task<List<Customer>> FindCustomersByPartySizeAsync(int partySize)
+        {
+            var customers = await _restaurantReservationDbContext.Customers
+                .FromSqlRaw($"EXEC FindCustomersByPartySize @PartySize={partySize}")
+                .ToListAsync();
+
+            return customers;
+        }
     }
 }
