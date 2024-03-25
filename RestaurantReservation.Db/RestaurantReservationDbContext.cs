@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using RestaurantReservation.Db.Models;
+using RestaurantReservation.Db.Views;
 
 namespace RestaurantReservation.Db
 {
@@ -14,6 +15,9 @@ namespace RestaurantReservation.Db
         public DbSet<MenuItem> MenuItems { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<ReservationDetailsView> ReservationDetails { get; set; }
+        public DbSet<EmployeeDetailsView> EmployeeDetails { get; set; }
+
         public RestaurantReservationDbContext(DbContextOptions<RestaurantReservationDbContext> options)
         : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,6 +29,19 @@ namespace RestaurantReservation.Db
             modelBuilder.Entity<Order>()
                 .Property(o => o.TotalAmount)
                 .HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<ReservationDetailsView>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("ReservationDetailsView");
+            });
+
+            modelBuilder.Entity<EmployeeDetailsView>(entity =>
+            {
+                entity.HasNoKey();
+                entity.ToView("EmployeeDetailsView");
+
+            });
         }
     }
 }
