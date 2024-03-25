@@ -48,5 +48,13 @@ namespace RestaurantReservation.Db.Repositories.RestaurantRepository
             _restaurantReservationDbContext.Restaurants.Update(updatedRestaurant);
             await _restaurantReservationDbContext.SaveChangesAsync();
         }
+
+        public async Task<decimal> CalculateTotalRevenueAsync(int restaurantId)
+        {
+            var totalRevenue = await _restaurantReservationDbContext.Restaurants
+                .Select(r => _restaurantReservationDbContext.CalculateTotalRevenue(restaurantId))
+                .FirstOrDefaultAsync();
+            return totalRevenue;
+        }
     }
 }

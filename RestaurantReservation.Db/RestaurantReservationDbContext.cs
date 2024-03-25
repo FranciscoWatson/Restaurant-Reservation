@@ -18,6 +18,7 @@ namespace RestaurantReservation.Db
         public DbSet<ReservationDetailsView> ReservationDetails { get; set; }
         public DbSet<EmployeeDetailsView> EmployeeDetails { get; set; }
 
+
         public RestaurantReservationDbContext(DbContextOptions<RestaurantReservationDbContext> options)
         : base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -42,6 +43,15 @@ namespace RestaurantReservation.Db
                 entity.ToView("EmployeeDetailsView");
 
             });
+
+            modelBuilder.HasDbFunction(typeof(RestaurantReservationDbContext)
+              .GetMethod(nameof(CalculateTotalRevenue)))
+              .HasName("CalculateTotalRevenue");
+
         }
+
+        [DbFunction(Name = "CalculateTotalRevenue")]
+        public decimal CalculateTotalRevenue(int restaurantId) => throw new NotSupportedException();
+
     }
 }

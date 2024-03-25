@@ -7,6 +7,7 @@ using RestaurantReservation.Db.Repositories.MenuItemRepository;
 using RestaurantReservation.Db.Repositories.OrderItemRepository;
 using RestaurantReservation.Db.Repositories.OrderRepository;
 using RestaurantReservation.Db.Repositories.ReservationRepository;
+using RestaurantReservation.Db.Repositories.RestaurantRepository;
 
 IConfigurationRoot configuration = new ConfigurationBuilder()
                .SetBasePath(Directory.GetCurrentDirectory())
@@ -174,8 +175,18 @@ while (true)
             break;
 
         case 9:
-            // CalculateTotalRevenueByRestaurant();
+            using (var dbContext = new RestaurantReservationDbContext(contextOptions))
+            {
+
+                Console.Write("Enter Restaurant ID: ");
+                int restaurantId = Convert.ToInt32(Console.ReadLine());
+                var restaurantRepository = new RestaurantRepository(dbContext);
+                var totalRevenue = await restaurantRepository.CalculateTotalRevenueAsync(restaurantId);
+                Console.WriteLine($"Total revenue for restaurant ID {restaurantId}: {totalRevenue:C}");
+            }
             break;
+
+
         case 10:
             // FindCustomersByPartySize();
             break;
