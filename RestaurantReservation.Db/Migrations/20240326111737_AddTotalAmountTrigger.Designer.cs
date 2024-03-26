@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantReservation.Db;
 
@@ -11,9 +12,11 @@ using RestaurantReservation.Db;
 namespace RestaurantReservation.Db.Migrations
 {
     [DbContext(typeof(RestaurantReservationDbContext))]
-    partial class RestaurantReservationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240326111737_AddTotalAmountTrigger")]
+    partial class AddTotalAmountTrigger
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +54,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers", (string)null);
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Models.Employee", b =>
@@ -84,7 +87,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Models.MenuItem", b =>
@@ -113,7 +116,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("MenuItems");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Models.Order", b =>
@@ -142,7 +145,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasIndex("ReservationId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Models.OrderItem", b =>
@@ -168,7 +171,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Models.Reservation", b =>
@@ -202,7 +205,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasIndex("TableId");
 
-                    b.ToTable("Reservations", (string)null);
+                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Models.Restaurant", b =>
@@ -232,7 +235,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasKey("RestaurantId");
 
-                    b.ToTable("Restaurants", (string)null);
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Models.Table", b =>
@@ -253,7 +256,7 @@ namespace RestaurantReservation.Db.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Tables", (string)null);
+                    b.ToTable("Tables");
                 });
 
             modelBuilder.Entity("RestaurantReservation.Db.Views.EmployeeDetailsView", b =>
