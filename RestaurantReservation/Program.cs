@@ -99,7 +99,7 @@ while (true)
                     Console.WriteLine("Menu Items:");
                     foreach (var item in order.OrderItems)
                     {
-                        Console.WriteLine($"- {item.MenuItem.Name}: {item.MenuItem.Description}, Price: {item.MenuItem.Price}, Order: {item.Quantity}");
+                        Console.WriteLine($"- {item.MenuItem.Name}: {item.MenuItem.Description}, Price: {item.MenuItem.Price}, Quantity: {item.Quantity}");
                     }
                 }
             }
