@@ -1,11 +1,25 @@
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
+using RestaurantReservation.API.DTOs;
+using RestaurantReservation.Db;
+using RestaurantReservation.Db.Repositories.CustomerRepository;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Configure services
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddDbContext<RestaurantReservationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
+
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+
 
 var app = builder.Build();
 
@@ -15,6 +29,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 

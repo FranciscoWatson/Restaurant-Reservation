@@ -1,6 +1,15 @@
-﻿namespace RestaurantReservation.API.Profiles;
+﻿using AutoMapper;
+using RestaurantReservation.API.DTOs;
+using RestaurantReservation.Db.Models;
 
-public class CustomerProfile
+namespace RestaurantReservation.API.Profiles;
+
+public class CustomerProfile : Profile
 {
-    
+    public CustomerProfile()
+    {
+        CreateMap<Customer, CustomerDto>().ReverseMap();
+        CreateMap<CustomerForUpdateDto, Customer>().ReverseMap();
+        CreateMap<Customer, CustomerDtoForCreation>().ReverseMap();
+    }
 }
