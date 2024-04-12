@@ -3,6 +3,7 @@ using Newtonsoft.Json.Serialization;
 using RestaurantReservation.API.DTOs;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Repositories.CustomerRepository;
+using RestaurantReservation.Db.Repositories.ReservationRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,7 @@ builder.Services.AddDbContext<RestaurantReservationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SqlServerConnection")));
 
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 
 
 var app = builder.Build();
