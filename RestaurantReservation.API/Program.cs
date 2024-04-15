@@ -5,6 +5,7 @@ using RestaurantReservation.Db;
 using RestaurantReservation.Db.Repositories.CustomerRepository;
 using RestaurantReservation.Db.Repositories.EmployeeRepository;
 using RestaurantReservation.Db.Repositories.MenuItemRepository;
+using RestaurantReservation.Db.Repositories.OrderRepository;
 using RestaurantReservation.Db.Repositories.ReservationRepository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,7 @@ builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 var app = builder.Build();
