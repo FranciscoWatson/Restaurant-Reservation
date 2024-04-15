@@ -4,6 +4,7 @@ using RestaurantReservation.API.DTOs;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Repositories.CustomerRepository;
 using RestaurantReservation.Db.Repositories.EmployeeRepository;
+using RestaurantReservation.Db.Repositories.MenuItemRepository;
 using RestaurantReservation.Db.Repositories.ReservationRepository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,7 @@ builder.Services.AddDbContext<RestaurantReservationDbContext>(options =>
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
 
 
 var app = builder.Build();
