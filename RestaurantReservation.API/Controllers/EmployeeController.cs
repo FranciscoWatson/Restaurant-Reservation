@@ -112,6 +112,13 @@ namespace RestaurantReservation.API.Controllers
 
             return NoContent();
         }
+        
+        [HttpGet("managers")]
+        public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetManagers()
+        {
+            var managers = await _employeeRepository.ListManagersAsync();
+            return Ok(_mapper.Map<IEnumerable<EmployeeDto>>(managers));
+        }
     }
 }
 
