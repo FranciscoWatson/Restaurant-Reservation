@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
+using RestaurantReservation.API.Authentication;
 using RestaurantReservation.API.DTOs;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Repositories.CustomerRepository;
@@ -10,11 +13,13 @@ using RestaurantReservation.Db.Repositories.OrderRepository;
 using RestaurantReservation.Db.Repositories.ReservationRepository;
 using RestaurantReservation.Db.Repositories.RestaurantRepository;
 using RestaurantReservation.Db.Repositories.TableRepository;
+using RestaurantReservation.Db.Repositories.UserRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure services
 builder.Services
+        
     .AddControllers()
     .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
@@ -33,6 +38,32 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<IRestaurantRepository, RestaurantRepository>();
 builder.Services.AddScoped<ITableRepository, TableRepository>();
+
+
+//Authentication
+var jwtConfig = builder.Configuration.GetSection("JwtAuthentication").Get<JwtAuthenticationConfig>();
+
+builder.Services.AddSingleton(jwtConfig);
+
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtConfig.Issuer,
+            ValidAudience = jwtConfig.Audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(jwtConfig.SecretKey)),
+            ClockSkew = TimeSpan.Zero
+
+        };
+    });
 
 
 var app = builder.Build();
