@@ -60,19 +60,10 @@ namespace RestaurantReservation.Db.Repositories.OrderItemRepository
             await UpdateOrderTotal(originalOrderId);
             
         }
-        
-        public async Task<decimal> CalculateAverageOrderAmountAsync(int employeeId)
-        {
-            return await _restaurantReservationDbContext.Orders
-                .Where(o => o.EmployeeId == employeeId)
-                .AverageAsync(o => o.TotalAmount);
-        }
-        
         private async Task UpdateOrderTotal(int orderId)
         {
             var orderIdParam = new SqlParameter("@OrderId", orderId);
             await _restaurantReservationDbContext.Database.ExecuteSqlRawAsync("EXEC UpdateOrderTotal @OrderId", orderIdParam);
-
         }
     }
 }

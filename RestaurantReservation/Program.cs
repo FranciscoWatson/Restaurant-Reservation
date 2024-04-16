@@ -136,8 +136,8 @@ while (true)
                 Console.Write("Enter Employee ID: ");
                 int employeeIdForAverage = Convert.ToInt32(Console.ReadLine());
 
-                var orderItemRepository = new OrderItemRepository(dbContext);
-                var averageAmount = await orderItemRepository.CalculateAverageOrderAmountAsync(employeeIdForAverage);
+                var employeeRepository = new EmployeeRepository(dbContext);
+                var averageAmount = await employeeRepository.CalculateAverageOrderAmountAsync(employeeIdForAverage);
                 Console.WriteLine($"The average order amount for employee ID {employeeIdForAverage} is: {averageAmount:C}");
             }
                 
