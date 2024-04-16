@@ -84,8 +84,8 @@ while (true)
                 Console.Write("Enter Reservation ID: ");
                 int reservationIdForOrders = Convert.ToInt32(Console.ReadLine());
 
-                var orderRepository = new OrderRepository(dbContext);
-                var orders = await orderRepository.ListOrdersAndMenuItems(reservationIdForOrders);
+                var reservationRepository = new ReservationRepository(dbContext);
+                var orders = await reservationRepository.ListOrdersAndMenuItems(reservationIdForOrders);
                 if (!orders.Any())
                 {
                     Console.WriteLine($"No orders found for reservation ID {reservationIdForOrders}.");
