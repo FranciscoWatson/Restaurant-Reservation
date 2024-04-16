@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.API.DTOs.OrderDTOs;
@@ -9,6 +10,7 @@ namespace RestaurantReservation.API.Controllers;
 
 [ApiController]
 [Route("api/orders")]
+[Authorize]
 public class OrderController : ControllerBase
 {
     private readonly IOrderRepository _orderRepository;
