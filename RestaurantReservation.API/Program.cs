@@ -1,3 +1,5 @@
+using System.Reflection;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -19,8 +21,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Configure services
 builder.Services
-        
     .AddControllers()
+    .AddFluentValidation(v =>  v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
     .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
 
 builder.Services.AddEndpointsApiExplorer();
