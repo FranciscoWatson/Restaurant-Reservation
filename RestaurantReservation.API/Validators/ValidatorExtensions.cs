@@ -31,4 +31,19 @@ public static class ValidatorExtensions
             .Matches(@"^\+(?:[0-9] ?){6,14}[0-9]$")
             .WithMessage("Invalid phone number.");
     }
+    
+    public static IRuleBuilderOptions<T, string> ValidatePosition<T>(this IRuleBuilder<T, string> ruleBuilder)
+    {
+        return ruleBuilder
+            .NotEmpty()
+            .WithMessage("Position is required.");
+    }
+    
+    public static IRuleBuilder<T, int> ValidateEntityId<T>(this IRuleBuilder<T, int> ruleBuilder, string fieldName = "ID")
+    {
+        return ruleBuilder
+            .NotEmpty()
+            .GreaterThan(0)
+            .WithMessage($"{fieldName} is required and must be greater than 0.");
+    }
 }
