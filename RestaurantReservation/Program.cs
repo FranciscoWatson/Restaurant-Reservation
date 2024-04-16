@@ -114,8 +114,8 @@ while (true)
                 Console.Write("Enter Reservation ID: ");
                 int reservationIdForMenuItems = Convert.ToInt32(Console.ReadLine());
 
-                var menuItemRepository = new MenuItemRepository(dbContext);
-                var menuItems = await menuItemRepository.ListOrderedMenuItems(reservationIdForMenuItems);
+                var reservationRepository = new ReservationRepository(dbContext);
+                var menuItems = await reservationRepository.ListOrderedMenuItems(reservationIdForMenuItems);
                 if (!menuItems.Any())
                 {
                     Console.WriteLine($"No menu items found for reservation ID {reservationIdForMenuItems}.");

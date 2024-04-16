@@ -62,5 +62,16 @@ namespace RestaurantReservation.Db.Repositories.ReservationRepository
                 .ThenInclude(oi => oi.MenuItem)
                 .ToListAsync();
         }
+        
+        public async Task<IEnumerable<MenuItem>> ListOrderedMenuItems(int reservationId)
+        {
+            return await _restaurantReservationDbContext.Reservations
+                .Where(r => r.ReservationId == reservationId)
+                .SelectMany(r => r.Orders)
+                .SelectMany(o => o.OrderItems)
+                .Select(oi => oi.MenuItem)
+                .Distinct() 
+                .ToListAsync();
+        }
     }
 }
