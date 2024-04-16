@@ -43,7 +43,9 @@ public static class ValidatorExtensions
     {
         return ruleBuilder
             .NotEmpty()
-            .GreaterThan(0)
-            .WithMessage($"{fieldName} is required and must be greater than 0.");
+            .NotNull()
+            .WithMessage($"{fieldName} is required.")
+            .GreaterThan(0);
+
     }
 }
