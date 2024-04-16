@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantReservation.API.DTOs;
+using RestaurantReservation.API.DTOs.OrderDTOs;
 using RestaurantReservation.API.DTOs.ReservationDto;
 using RestaurantReservation.Db.Models;
 using RestaurantReservation.Db.Repositories.ReservationRepository;
@@ -118,7 +118,14 @@ namespace RestaurantReservation.API.Controllers
         {
             var reservations = await _reservationRepository.GetReservationsByCustomer(customerId);
             return Ok(_mapper.Map<IEnumerable<ReservationDto>>(reservations));
-        }   
+        }  
+        
+        [HttpGet("{reservationId}/orders")]
+        public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrdersByReservationId(int reservationId)
+        {
+            var ordersWithMenuItems = await _reservationRepository.ListOrdersAndMenuItems(reservationId);
+            return Ok(_mapper.Map<IEnumerable<OrderWithMenuItemsDto>>(ordersWithMenuItems));
+        }
     }
 }
 

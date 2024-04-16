@@ -11,5 +11,8 @@ public class OrderProfile : Profile
         CreateMap<Order, OrderDto>().ReverseMap();
         CreateMap<OrderForUpdateDto, Order>().ReverseMap();
         CreateMap<Order, OrderForCreationDto>().ReverseMap();
+        CreateMap<Order, OrderWithMenuItemsDto>()
+            .ForMember(dto => dto.MenuItems, conf => conf.MapFrom(o => o.OrderItems.Select(oi => oi.MenuItem)));
+
     }
 }
