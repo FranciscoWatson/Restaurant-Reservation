@@ -112,6 +112,13 @@ namespace RestaurantReservation.API.Controllers
 
             return NoContent();
         }
+        
+        [HttpGet("customer/{customerId}")]
+        public async Task<ActionResult<IEnumerable<ReservationDto>>> GetReservationsByCustomerId(int customerId)
+        {
+            var reservations = await _reservationRepository.GetReservationsByCustomer(customerId);
+            return Ok(_mapper.Map<IEnumerable<ReservationDto>>(reservations));
+        }   
     }
 }
 
