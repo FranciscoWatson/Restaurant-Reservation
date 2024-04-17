@@ -5,9 +5,9 @@ namespace RestaurantReservation.API.Validators.MenuItemValidators;
 
 public class MenuItemForUpdateDtoValidator : AbstractValidator<MenuItemForUpdateDto>
 {
-    public MenuItemForUpdateDtoValidator()
+    public MenuItemForUpdateDtoValidator(EntityValidator entityValidator)
     {
-        RuleFor(menuItem => menuItem.RestaurantId).ValidateEntityId("Restaurant ID");
+        RuleFor(menuItem => menuItem.RestaurantId).ValidateEntityId("Restaurant ID").Must(entityValidator.RestaurantExists).WithMessage("Restaurant ID does not exist.");
         RuleFor(x => x.Name)
             .NotEmpty()
             .NotNull()

@@ -44,8 +44,7 @@ public static class ValidatorExtensions
         return ruleBuilder
             .NotEmpty()
             .NotNull()
-            .WithMessage($"{fieldName} is required.")
-            .GreaterThan(0);
-
+            .GreaterThan(0)
+            .WithMessage($"{fieldName} must be a positive integer.");
     }
 }

@@ -5,9 +5,16 @@ namespace RestaurantReservation.API.Validators.TableValidators;
 
 public class TableForCreationDtoValidator : AbstractValidator<TableForCreationDto>
 {
-    public TableForCreationDtoValidator()
+    public TableForCreationDtoValidator(EntityValidator entityValidator)
     {
-        RuleFor(table => table.RestaurantId).NotEmpty().GreaterThan(0);
+        When(table => table.RestaurantId.HasValue, () =>
+        {
+            RuleFor(table => table.RestaurantId.Value)
+                .ValidateEntityId("Restaurant ID")
+                .Must(entityValidator.RestaurantExists)
+                .WithMessage("Restaurant ID does not exist.");
+        });
+        
         RuleFor(table => table.Capacity).NotEmpty().GreaterThan(0);
     }
 }
