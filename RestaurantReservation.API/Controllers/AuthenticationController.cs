@@ -20,14 +20,24 @@ public class AuthenticationController : ControllerBase
         _jwtAuthenticationConfig = jwtAuthenticationConfig;
     }
     
+    
+    /// <summary>
+    /// Authenticates a user and returns a JWT token if successful.
+    /// </summary>
+    /// <param name="authenticationRequestBody">The login credentials.</param>
+    /// <returns>Returns an access token and user information if authentication is successful.</returns>
+    /// <response code="200">If the user is authenticated successfully.</response>
+    /// <response code="401">If the user credentials are invalid.</response>
     [HttpPost("authenticate")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<object>> Authenticate(AuthenticationRequestBody authenticationRequestBody)
     {
         var user = await ValidateUserCredentials(authenticationRequestBody);
 
         if (user == null)
         {
-            return Unauthorized();
+            return Unauthorized("Invalid username or password.");
         }
 
         var token = _jwtTokenGenerator.GenerateToken(user);
