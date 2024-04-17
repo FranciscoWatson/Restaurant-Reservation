@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 using RestaurantReservation.API.Authentication;
-using RestaurantReservation.API.DTOs;
+using RestaurantReservation.API.Validators;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Repositories.CustomerRepository;
 using RestaurantReservation.Db.Repositories.EmployeeRepository;
@@ -24,6 +24,8 @@ builder.Services
     .AddControllers()
     .AddFluentValidation(v =>  v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()))
     .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
+
+builder.Services.AddScoped<EntityValidator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
