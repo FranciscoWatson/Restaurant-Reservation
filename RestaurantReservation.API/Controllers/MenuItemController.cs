@@ -23,14 +23,28 @@ public class MenuItemController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Retrieves all menuItems.
+    /// </summary>
+    /// <returns>A list of all menuItems.</returns>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<MenuItemDto>>> GetMenuItems()
     {
         var menuItems = await _menuItemRepository.GetAllAsync();
         return Ok(_mapper.Map<IEnumerable<MenuItemDto>>(menuItems));
     }
 
+    /// <summary>
+    /// Retrieves a specific menuItem by ID.
+    /// </summary>
+    /// <param name="id">The ID of the menuItem to retrieve.</param>
+    /// <returns>Returns the menuItem data.</returns>
+    /// <response code="200">Returned if the menuItem was found.</response>
+    /// <response code="404">Returned if the menuItem is not found.</response>
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(MenuItemDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<MenuItemDto>> GetMenuItemById(int id)
     {
         var menuItem = await _menuItemRepository.GetByIdAsync(id);
@@ -41,7 +55,16 @@ public class MenuItemController : ControllerBase
         return Ok(_mapper.Map<MenuItemDto>(menuItem));
     }
     
+    /// <summary>
+    /// Creates a new menuItem.
+    /// </summary>
+    /// <param name="menuItemForCreationDto">The menuItem data to create.</param>
+    /// <returns>A newly created menuItem.</returns>
+    /// <response code="200">Returned if the menuItem is successfully created.</response>
+    /// <response code="400">Returned if the request data is invalid.</response>
     [HttpPost]
+    [ProducesResponseType(typeof(MenuItemDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)] 
     public async Task<IActionResult> CreateMenuItem([FromBody] MenuItemForCreationDto menuItemForCreationDto)
     {
         if (!ModelState.IsValid)
@@ -57,7 +80,16 @@ public class MenuItemController : ControllerBase
 
     }
     
+    /// <summary>
+    /// Updates a menuItem.
+    /// </summary>
+    /// <param name="id">The ID of the menuItem to update.</param>
+    /// <param name="menuItemForUpdateDto">The updated menuItem data.</param>
+    /// <response code="204">Returned if the menuItem is successfully updated.</response>
+    /// <response code="404">Returned if the menuItem is not found.</response>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(int id, [FromBody] MenuItemForUpdateDto menuItemForUpdateDto)
     {
         var menuItem = await _menuItemRepository.GetByIdAsync(id);
@@ -74,7 +106,18 @@ public class MenuItemController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Partially updates a menuItem.
+    /// </summary>
+    /// <param name="id">The ID of the menuItem to update.</param>
+    /// <param name="patchDocument">The patch document for update.</param>
+    /// <response code="204">Returned if the menuItem is successfully updated.</response>
+    /// <response code="400">Returned if the request data is invalid.</response>
+    /// <response code="404">Returned if the menuItem is not found.</response>
     [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> PartiallyUpdateMenuItem(int id, [FromBody] JsonPatchDocument<MenuItemForUpdateDto> patchDocument)
     {
         var menuItemEntity = await _menuItemRepository.GetByIdAsync(id);
@@ -100,7 +143,15 @@ public class MenuItemController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Deletes a specific menuItem.
+    /// </summary>
+    /// <param name="id">The ID of the menuItem to delete.</param>
+    /// <response code="204">Returned if the menuItem is successfully deleted.</response>
+    /// <response code="404">Returned if the menuItem is not found.</response>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteMenuItem(int id)
     {
         var menuItem = await _menuItemRepository.GetByIdAsync(id);

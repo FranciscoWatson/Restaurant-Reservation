@@ -22,6 +22,10 @@ public class RestaurantController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Retrieves all restaurants.
+    /// </summary>
+    /// <returns>A list of all restaurants.</returns>
     [HttpGet]
     public async Task<ActionResult<IEnumerable<RestaurantDto>>> GetOrders()
     {
@@ -29,7 +33,16 @@ public class RestaurantController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<RestaurantDto>>(restaurants));
     }
 
+    /// <summary>
+    /// Retrieves a specific restaurant by ID.
+    /// </summary>
+    /// <param name="id">The ID of the restaurant to retrieve.</param>
+    /// <returns>Returns the restaurant data.</returns>
+    /// <response code="200">Returned if the restaurant was found.</response>
+    /// <response code="404">Returned if the restaurant is not found.</response>
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(RestaurantDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<RestaurantDto>> GetRestaurantsById(int id)
     {
         var restaurant = await _restaurantRepository.GetByIdAsync(id);
@@ -41,7 +54,16 @@ public class RestaurantController : ControllerBase
         return Ok(_mapper.Map<RestaurantDto>(restaurant));
     }
 
+    /// <summary>
+    /// Creates a new restaurant.
+    /// </summary>
+    /// <param name="employeeForCreationDto">The restaurant data to create.</param>
+    /// <returns>A newly created restaurant.</returns>
+    /// <response code="200">Returned if the restaurant is successfully created.</response>
+    /// <response code="400">Returned if the request data is invalid.</response>
     [HttpPost]
+    [ProducesResponseType(typeof(RestaurantDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)] 
     public async Task<IActionResult> CreateRestaurant([FromBody] RestaurantForCreationDto restaurantForCreationDto)
     {
         if (!ModelState.IsValid)
@@ -57,7 +79,16 @@ public class RestaurantController : ControllerBase
 
     }
 
+    /// <summary>
+    /// Updates a restaurant.
+    /// </summary>
+    /// <param name="id">The ID of the restaurant to update.</param>
+    /// <param name="restaurantForUpdateDto">The updated restaurant data.</param>
+    /// <response code="204">Returned if the restaurant is successfully updated.</response>
+    /// <response code="404">Returned if the restaurant is not found.</response>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Update(int id, [FromBody] RestaurantForUpdateDto restaurantForUpdateDto)
     {
         var restaurant = await _restaurantRepository.GetByIdAsync(id);
@@ -74,7 +105,18 @@ public class RestaurantController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Partially updates a restaurant.
+    /// </summary>
+    /// <param name="id">The ID of the restaurant to update.</param>
+    /// <param name="patchDocument">The patch document for update.</param>
+    /// <response code="204">Returned if the restaurant is successfully updated.</response>
+    /// <response code="400">Returned if the request data is invalid.</response>
+    /// <response code="404">Returned if the restaurant is not found.</response>
     [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> PartiallyUpdateRestaurant(int id,
         [FromBody] JsonPatchDocument<RestaurantForUpdateDto> patchDocument)
     {
@@ -101,7 +143,15 @@ public class RestaurantController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Deletes a specific restaurant.
+    /// </summary>
+    /// <param name="id">The ID of the restaurant to delete.</param>
+    /// <response code="204">Returned if the restaurant is successfully deleted.</response>
+    /// <response code="404">Returned if the restaurant is not found.</response>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteRestaurant(int id)
     {
         var restaurant = await _restaurantRepository.GetByIdAsync(id);
