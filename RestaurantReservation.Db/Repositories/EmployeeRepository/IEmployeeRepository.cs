@@ -15,6 +15,6 @@ namespace RestaurantReservation.Db.Repositories.EmployeeRepository
         Task UpdateAsync(Employee updatedEmployee);
         Task DeleteAsync(int employeeId);
         Task<IEnumerable<Employee>> ListManagersAsync();
-
+        Task<decimal> CalculateAverageOrderAmountAsync(int employeeId);
     }
 }

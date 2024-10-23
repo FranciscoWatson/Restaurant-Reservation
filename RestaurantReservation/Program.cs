@@ -84,8 +84,8 @@ while (true)
                 Console.Write("Enter Reservation ID: ");
                 int reservationIdForOrders = Convert.ToInt32(Console.ReadLine());
 
-                var orderRepository = new OrderRepository(dbContext);
-                var orders = await orderRepository.ListOrdersAndMenuItems(reservationIdForOrders);
+                var reservationRepository = new ReservationRepository(dbContext);
+                var orders = await reservationRepository.ListOrdersAndMenuItems(reservationIdForOrders);
                 if (!orders.Any())
                 {
                     Console.WriteLine($"No orders found for reservation ID {reservationIdForOrders}.");
@@ -114,8 +114,8 @@ while (true)
                 Console.Write("Enter Reservation ID: ");
                 int reservationIdForMenuItems = Convert.ToInt32(Console.ReadLine());
 
-                var menuItemRepository = new MenuItemRepository(dbContext);
-                var menuItems = await menuItemRepository.ListOrderedMenuItems(reservationIdForMenuItems);
+                var reservationRepository = new ReservationRepository(dbContext);
+                var menuItems = await reservationRepository.ListOrderedMenuItems(reservationIdForMenuItems);
                 if (!menuItems.Any())
                 {
                     Console.WriteLine($"No menu items found for reservation ID {reservationIdForMenuItems}.");
@@ -136,8 +136,8 @@ while (true)
                 Console.Write("Enter Employee ID: ");
                 int employeeIdForAverage = Convert.ToInt32(Console.ReadLine());
 
-                var orderItemRepository = new OrderItemRepository(dbContext);
-                var averageAmount = await orderItemRepository.CalculateAverageOrderAmountAsync(employeeIdForAverage);
+                var employeeRepository = new EmployeeRepository(dbContext);
+                var averageAmount = await employeeRepository.CalculateAverageOrderAmountAsync(employeeIdForAverage);
                 Console.WriteLine($"The average order amount for employee ID {employeeIdForAverage} is: {averageAmount:C}");
             }
                 
